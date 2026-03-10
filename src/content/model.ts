@@ -126,6 +126,24 @@ export interface GlossaryEntry {
   level: LevelId | 'all';
 }
 
+// ── Governance / Overlap ─────────────────────────────────────────────
+
+export interface GovernanceCard {
+  level: LevelId;
+  governs: string[];
+  doesNotGovern: string[];
+  identity: string;
+  useCases: string[];
+  altitude: string;
+  owner: string;
+  focus: string;
+}
+
+export interface FutureModule {
+  name: string;
+  description: string;
+}
+
 // ── Playbook Section ─────────────────────────────────────────────────
 
 export interface PlaybookSection {

@@ -123,4 +123,11 @@ export const glossary: readonly GlossaryEntry[] = [
     relatedTerms: ['Engineering Handoff', 'Design-to-Code Acceleration', 'Token-Driven'],
     level: 'c',
   },
+  {
+    term: 'Healthy Overlap',
+    definition:
+      'The intentional and governed overlap between levels A, B, and C. All three touch learning, but at different altitudes: A at 30,000 ft (direction + investment), B at 10,000 ft (execution system), and C at 3,000 ft (UI implementation). Overlap becomes a problem only when layers compete for the same decision rights, own the same artifacts, or try to be the main process.',
+    relatedTerms: ['Fast Forward', 'Protogen', 'Design-to-Code Acceleration', 'Guardrails'],
+    level: 'all',
+  },
 ] as const satisfies readonly GlossaryEntry[];
