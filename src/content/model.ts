@@ -132,11 +132,21 @@ export interface GovernanceCard {
   level: LevelId;
   governs: string[];
   doesNotGovern: string[];
+  accountableFor: string[];
+  produces: string[];
+  authorityBoundary: string;
   identity: string;
   useCases: string[];
   altitude: string;
   owner: string;
   focus: string;
+}
+
+export interface DecisionRight {
+  decision: string;
+  a: 'owns' | 'informs' | 'none';
+  b: 'owns' | 'informs' | 'none';
+  c: 'owns' | 'informs' | 'none';
 }
 
 export interface FutureModule {

@@ -1,6 +1,6 @@
 import { useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Info, ChevronDown, ChevronUp, ShieldCheck, AlertTriangle, ArrowRight, Lightbulb, Puzzle } from 'lucide-react';
+import { Info, ChevronDown, ChevronUp, ShieldCheck, AlertTriangle, ArrowRight, Lightbulb, Puzzle, CheckCircle2, AlertCircle, MinusCircle, Scale } from 'lucide-react';
 import { mappings } from '@/content/mappings';
 import { levelsById } from '@/content/content';
 import {
@@ -9,6 +9,9 @@ import {
   antiPatterns,
   cleanRules,
   decisionGuide,
+  decisionRightsMatrix,
+  escalationModel,
+  goldenRule,
   futureModules,
 } from '@/content/overlap';
 import type { LevelId, Mapping } from '@/content/model';
@@ -344,9 +347,44 @@ export default function MappingPage() {
                         </ul>
                       </div>
 
-                      {/* Identity */}
+                      {/* Expandable: Accountable For + Produces */}
+                      <Accordion type="single" collapsible>
+                        <AccordionItem value="accountable" className="border-b-0">
+                          <AccordionTrigger className="py-1.5 text-xs font-semibold uppercase tracking-wider text-gray-400 hover:text-gray-600 [&>svg]:h-3 [&>svg]:w-3">
+                            Accountable For
+                          </AccordionTrigger>
+                          <AccordionContent>
+                            <ul className="space-y-1">
+                              {card.accountableFor.map((item) => (
+                                <li key={item} className="flex items-start gap-2 text-gray-600">
+                                  <span className={cn('mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full', colors.dot, 'opacity-50')} />
+                                  {item}
+                                </li>
+                              ))}
+                            </ul>
+                          </AccordionContent>
+                        </AccordionItem>
+                        <AccordionItem value="produces" className="border-b-0">
+                          <AccordionTrigger className="py-1.5 text-xs font-semibold uppercase tracking-wider text-gray-400 hover:text-gray-600 [&>svg]:h-3 [&>svg]:w-3">
+                            Produces
+                          </AccordionTrigger>
+                          <AccordionContent>
+                            <ul className="space-y-1">
+                              {card.produces.map((item) => (
+                                <li key={item} className="flex items-start gap-2 text-gray-600">
+                                  <span className={cn('mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full', colors.dot, 'opacity-50')} />
+                                  {item}
+                                </li>
+                              ))}
+                            </ul>
+                          </AccordionContent>
+                        </AccordionItem>
+                      </Accordion>
+
+                      {/* Authority boundary */}
                       <div className={cn('rounded-md px-3 py-2', colors.bg)}>
                         <p className={cn('text-xs font-semibold', colors.text)}>{card.identity}</p>
+                        <p className={cn('mt-1 text-xs italic', colors.text, 'opacity-80')}>{card.authorityBoundary}</p>
                       </div>
                     </CardContent>
                   </Card>
@@ -413,6 +451,75 @@ export default function MappingPage() {
             </Card>
           </section>
 
+          {/* ── 3b. Decision Rights Matrix ─────────────────────────── */}
+          <section>
+            <h2 className="mb-4 text-lg font-semibold text-gray-900">Decision Rights Matrix</h2>
+            <p className="mb-4 text-sm text-gray-600">
+              Who owns, informs, or has no authority over each decision type.
+            </p>
+            <Card className="overflow-hidden">
+              {/* Desktop table */}
+              <div className="hidden sm:block">
+                <div className="grid grid-cols-[2fr_1fr_1fr_1fr] gap-4 border-b border-gray-200 bg-gray-50 px-4 py-2 text-xs font-semibold uppercase tracking-wider text-gray-500">
+                  <span>Decision</span>
+                  <span className="text-center">A</span>
+                  <span className="text-center">B</span>
+                  <span className="text-center">C</span>
+                </div>
+                <CardContent className="p-0">
+                  {decisionRightsMatrix.map((row, i) => (
+                    <div
+                      key={row.decision}
+                      className={cn(
+                        'grid grid-cols-[2fr_1fr_1fr_1fr] gap-4 px-4 py-3 text-sm',
+                        i % 2 === 0 ? 'bg-white' : 'bg-gray-50/50'
+                      )}
+                    >
+                      <span className="text-gray-900">{row.decision}</span>
+                      {(['a', 'b', 'c'] as const).map((level) => {
+                        const val = row[level];
+                        return (
+                          <span key={level} className="flex items-center justify-center">
+                            {val === 'owns' && <CheckCircle2 className="h-4 w-4 text-green-500" />}
+                            {val === 'informs' && <AlertCircle className="h-4 w-4 text-amber-500" />}
+                            {val === 'none' && <MinusCircle className="h-4 w-4 text-gray-300" />}
+                          </span>
+                        );
+                      })}
+                    </div>
+                  ))}
+                </CardContent>
+                {/* Legend */}
+                <div className="flex items-center gap-5 border-t border-gray-200 bg-gray-50 px-4 py-2 text-xs text-gray-500">
+                  <span className="flex items-center gap-1"><CheckCircle2 className="h-3.5 w-3.5 text-green-500" /> Owns</span>
+                  <span className="flex items-center gap-1"><AlertCircle className="h-3.5 w-3.5 text-amber-500" /> Informs</span>
+                  <span className="flex items-center gap-1"><MinusCircle className="h-3.5 w-3.5 text-gray-300" /> No authority</span>
+                </div>
+              </div>
+              {/* Mobile cards */}
+              <div className="space-y-3 p-4 sm:hidden">
+                {decisionRightsMatrix.map((row) => (
+                  <div key={row.decision} className="rounded-lg border border-gray-200 p-3">
+                    <p className="text-sm font-medium text-gray-900 mb-2">{row.decision}</p>
+                    <div className="flex gap-3">
+                      {(['a', 'b', 'c'] as const).map((level) => {
+                        const val = row[level];
+                        return (
+                          <div key={level} className="flex items-center gap-1.5">
+                            <Badge variant={levelBadge[level]}>{level.toUpperCase()}</Badge>
+                            {val === 'owns' && <CheckCircle2 className="h-3.5 w-3.5 text-green-500" />}
+                            {val === 'informs' && <AlertCircle className="h-3.5 w-3.5 text-amber-500" />}
+                            {val === 'none' && <MinusCircle className="h-3.5 w-3.5 text-gray-300" />}
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </Card>
+          </section>
+
           {/* ── 4. Anti-Patterns ─────────────────────────────────────── */}
           <section>
             <h2 className="mb-4 text-lg font-semibold text-gray-900">Where Overlap Becomes a Problem</h2>
@@ -466,7 +573,33 @@ export default function MappingPage() {
             </div>
           </section>
 
-          {/* ── 6. Future Vision ──────────────────────────────────────── */}
+          {/* ── 6. Escalation Model + Golden Rule ─────────────────────── */}
+          <section>
+            <h2 className="mb-4 text-lg font-semibold text-gray-900">When Confusion Arises</h2>
+            <div className="space-y-2">
+              {escalationModel.map((item, i) => (
+                <div key={item.question} className="flex items-center gap-3 rounded-lg border border-gray-200 px-4 py-3">
+                  <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-gray-100 text-xs font-bold text-gray-500">
+                    {i + 1}
+                  </span>
+                  <p className="min-w-0 flex-1 text-sm text-gray-900">{item.question}</p>
+                  <ArrowRight className="h-3.5 w-3.5 shrink-0 text-gray-400" />
+                  <Badge variant={levelBadge[item.answeredBy]}>{item.answeredBy.toUpperCase()} decides</Badge>
+                </div>
+              ))}
+            </div>
+            <Card className="mt-4 border-gray-300 bg-gray-900">
+              <CardContent className="flex items-center gap-3 p-4">
+                <Scale className="h-5 w-5 shrink-0 text-amber-400" />
+                <div>
+                  <p className="text-xs font-semibold uppercase tracking-wider text-gray-400">The Golden Rule</p>
+                  <p className="mt-0.5 text-sm font-medium text-white">{goldenRule}</p>
+                </div>
+              </CardContent>
+            </Card>
+          </section>
+
+          {/* ── 7. Future Vision ──────────────────────────────────────── */}
           <section>
             <Card className="border-purple-200 bg-purple-50/40">
               <CardContent className="p-5">

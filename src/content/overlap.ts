@@ -1,7 +1,7 @@
-// ── Healthy Overlap Content ──────────────────────────────────────────
-// Derived from healthy-overlap.md — proves A/B/C separation is clean.
+// ── Healthy Overlap + Boundaries of Authority Content ────────────────
+// Derived from healthy-overlap.md and boundaries-of-authority.md.
 
-import type { GovernanceCard, FutureModule } from './model';
+import type { GovernanceCard, DecisionRight, FutureModule } from './model';
 
 /** The 4-point test for when layers compete for authority */
 export const authorityTest = [
@@ -16,17 +16,36 @@ export const governanceCards: readonly GovernanceCard[] = [
   {
     level: 'a',
     governs: [
-      'Why we\'re doing this',
-      'Whether we should scale',
-      'What the investment decision is',
-      'What path forward we choose',
+      'Problem framing',
+      'Hypothesis definition',
+      'Investment intent',
+      'Success criteria + validation thresholds',
+      'Go / No-Go / Pivot decisions',
+      'Path-to-scale selection',
+      'Portfolio-level learning capture',
     ],
     doesNotGovern: [
-      'How code is written',
-      'How design tokens are wired',
-      'UI state coverage',
+      'Code structure',
       'Dev environment setup',
+      'Design system implementation',
+      'Component patterns',
+      'Frontend handoff mechanics',
+      'Technical architecture specifics',
     ],
+    accountableFor: [
+      'Ensuring we are solving the right problem',
+      'Ensuring evidence exists before scaling',
+      'Ensuring organizational alignment',
+      'Ensuring budget + executive sponsorship clarity',
+    ],
+    produces: [
+      'Problem hypothesis',
+      'Defined learning objectives',
+      'Experiment scope',
+      'Decision artifacts',
+      'Scale path selection (Production Build / Enablement / Flywheel / Transformation)',
+    ],
+    authorityBoundary: 'Fast Forward governs whether and why we build — not how we implement.',
     identity: 'Organizational direction and investment clarity',
     useCases: [
       'Starting a new initiative',
@@ -41,17 +60,36 @@ export const governanceCards: readonly GovernanceCard[] = [
   {
     level: 'b',
     governs: [
-      'How the team moves from signals to demo-ready product',
-      'Context engineering',
-      'Tooling + guardrails',
-      'Iterative build loop',
+      'Context engineering framework',
+      'Delivery loop structure (Discovery \u2192 Visioning \u2192 Setup \u2192 Build \u2192 Release)',
+      'Tooling selection within approved guardrails',
+      'Shared development workflow',
+      'Iteration cadence',
+      'Demo readiness standards',
+      'Evidence capture for A',
     ],
     doesNotGovern: [
-      'Investment decisions',
-      'Program-level strategy',
-      'Component-level design rules',
-      'Whether to proceed or stop',
+      'Strategic investment decisions',
+      'Portfolio prioritization',
+      'Long-term funding allocation',
+      'Enterprise transformation strategy',
+      'Executive-level go/no-go',
     ],
+    accountableFor: [
+      'Converting signals into working software',
+      'Maintaining build velocity without chaos',
+      'Guardrail enforcement (human review, security boundaries)',
+      'Producing demo-ready, testable artifacts',
+      'Feeding structured learning back to A',
+    ],
+    produces: [
+      'Synthesized discovery insights',
+      'MVP definition + north star',
+      'AI workspace configuration',
+      'Demo-ready product',
+      'Repeatable delivery playbook',
+    ],
+    authorityBoundary: 'Protogen governs how delivery runs, but not whether the initiative continues or scales.',
     identity: 'Controlled acceleration',
     useCases: [
       'A decision has been made to prototype/build',
@@ -66,17 +104,36 @@ export const governanceCards: readonly GovernanceCard[] = [
   {
     level: 'c',
     governs: [
-      'How UI prototypes are created',
-      'How design systems are respected',
-      'How starter code is handed off cleanly',
-      'State and edge-case coverage',
+      'Design-to-code workflow',
+      'Figma \u2192 token \u2192 UI translation process',
+      'State and edge-case coverage standards',
+      'Starter code baseline quality',
+      'Frontend handoff package structure',
+      'UI consistency enforcement',
     ],
     doesNotGovern: [
-      'MVP scope',
-      'Tooling for the entire team',
-      'Program decisions',
-      'Replacing the SDLC',
+      'MVP scope definition',
+      'Product vision',
+      'Full SDLC governance',
+      'Backend architecture',
+      'Infrastructure decisions',
+      'Investment decisions',
     ],
+    accountableFor: [
+      'Rapid UI prototyping fidelity',
+      'Design system alignment',
+      'Edge-case completeness',
+      'Reducing frontend rework',
+      'Clean developer handoff',
+    ],
+    produces: [
+      'Interactive prototype',
+      'Token-aligned UI components',
+      'State-complete UI coverage',
+      'Starter code baseline',
+      'Handoff documentation',
+    ],
+    authorityBoundary: 'Design-to-Code governs UI acceleration inside delivery, not the SDLC or strategic direction.',
     identity: 'UI acceleration + consistency',
     useCases: [
       'You are in B.Build',
@@ -112,6 +169,28 @@ export const decisionGuide = [
   { scenario: 'Deciding whether to productionize?', action: 'Back to A (using evidence from B)', level: 'a' as const },
   { scenario: 'Scaling into production?', action: 'A chooses the path, B adapts to full production SDLC', level: 'a' as const },
 ] as const;
+
+/** Decision Rights Matrix — who owns, informs, or has no authority */
+export const decisionRightsMatrix: readonly DecisionRight[] = [
+  { decision: 'Is this problem worth solving?', a: 'owns', b: 'none', c: 'none' },
+  { decision: 'What is the MVP scope?', a: 'owns', b: 'informs', c: 'none' },
+  { decision: 'How do we structure the SDLC?', a: 'none', b: 'owns', c: 'none' },
+  { decision: 'Which AI tools within policy?', a: 'none', b: 'owns', c: 'informs' },
+  { decision: 'How do we translate Figma to UI?', a: 'none', b: 'none', c: 'owns' },
+  { decision: 'Edge-case state coverage standards', a: 'none', b: 'informs', c: 'owns' },
+  { decision: 'Go / No-Go to scale', a: 'owns', b: 'informs', c: 'none' },
+  { decision: 'Frontend handoff structure', a: 'none', b: 'informs', c: 'owns' },
+] as const;
+
+/** Escalation model — 3-step decision tree when confusion arises */
+export const escalationModel = [
+  { question: 'Is this about investment or direction?', answeredBy: 'a' as const },
+  { question: 'Is this about delivery mechanics or AI workflow structure?', answeredBy: 'b' as const },
+  { question: 'Is this about UI fidelity, tokens, states, or frontend baseline?', answeredBy: 'c' as const },
+] as const;
+
+/** The golden rule of the governance model */
+export const goldenRule = 'No layer may redefine the authority of the layer above it.' as const;
 
 /** Future modules that could plug into B alongside C */
 export const futureModules: readonly FutureModule[] = [
