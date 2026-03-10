@@ -43,25 +43,41 @@ interface HierarchyNavigatorProps {
   className?: string;
 }
 
+const INDENT = 20;
+const CARD_W = 160;
+
 export function HierarchyNavigator({
   currentLevel,
   onSelect,
   className,
 }: HierarchyNavigatorProps) {
+  const totalWidth = CARD_W + (levels.length - 1) * INDENT;
+
   return (
-    <div className={cn("flex flex-col", className)}>
+    <div className={cn("relative", className)} style={{ width: totalWidth }}>
       {levels.map((level, index) => {
         const isActive = currentLevel === level.id;
-        const indent = index * 20;
+        const left = index * INDENT;
 
         return (
-          <div key={level.id} className="relative">
-            {/* Connecting line */}
+          <div key={level.id} className="relative" style={{ marginLeft: left }}>
+            {/* Connector: vertical line down from previous card + arrow into this card */}
             {index > 0 && (
-              <div
-                className="absolute top-0 h-4 w-px bg-gray-300"
-                style={{ left: `${indent + 10}px`, transform: "translateY(-100%)" }}
-              />
+              <svg
+                className="absolute text-gray-400"
+                style={{ left: -6, top: -10 }}
+                width="20"
+                height="22"
+                viewBox="0 0 20 22"
+                fill="none"
+              >
+                {/* Vertical line */}
+                <line x1="1" y1="0" x2="1" y2="14" stroke="currentColor" strokeWidth="1.5" />
+                {/* Curve into card */}
+                <path d="M1 14 Q1 20 8 20" stroke="currentColor" strokeWidth="1.5" fill="none" />
+                {/* Arrow head */}
+                <path d="M6 17 L9 20 L6 23" stroke="currentColor" strokeWidth="1.5" fill="none" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
             )}
 
             <button
@@ -73,9 +89,8 @@ export function HierarchyNavigator({
                   ? cn(level.activeBg, level.activeBorder, level.activeText)
                   : "border-transparent text-gray-600 hover:border-gray-200 hover:bg-gray-50"
               )}
-              style={{ marginLeft: `${indent}px` }}
+              style={{ width: CARD_W, marginBottom: index < levels.length - 1 ? 10 : 0 }}
             >
-              {/* Level dot */}
               <span
                 className={cn(
                   "flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-xs font-bold text-white",
@@ -84,18 +99,8 @@ export function HierarchyNavigator({
               >
                 {level.letter}
               </span>
-
-              {/* Label */}
               <span className="text-sm font-medium">{level.name}</span>
             </button>
-
-            {/* Connecting line to next */}
-            {index < levels.length - 1 && (
-              <div
-                className="h-4 w-px bg-gray-300"
-                style={{ marginLeft: `${(index + 1) * 20 + 10}px` }}
-              />
-            )}
           </div>
         );
       })}
