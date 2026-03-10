@@ -1,0 +1,214 @@
+@import "tailwindcss";
+
+/* ── Design System Custom Properties ─────────────────────────────── */
+
+:root {
+  /* Level colors */
+  --color-level-a: oklch(0.585 0.233 264);   /* indigo/blue */
+  --color-level-a-light: oklch(0.75 0.17 264);
+  --color-level-a-dark: oklch(0.45 0.2 264);
+
+  --color-level-b: oklch(0.62 0.178 163);    /* emerald/teal */
+  --color-level-b-light: oklch(0.78 0.14 163);
+  --color-level-b-dark: oklch(0.48 0.16 163);
+
+  --color-level-c: oklch(0.705 0.175 62);    /* amber/orange */
+  --color-level-c-light: oklch(0.82 0.13 62);
+  --color-level-c-dark: oklch(0.55 0.16 62);
+
+  /* shadcn-style semantic tokens */
+  --background: oklch(0.985 0 0);
+  --foreground: oklch(0.145 0.015 264);
+
+  --card: oklch(0.985 0 0);
+  --card-foreground: oklch(0.145 0.015 264);
+
+  --popover: oklch(0.985 0 0);
+  --popover-foreground: oklch(0.145 0.015 264);
+
+  --primary: oklch(0.585 0.233 264);
+  --primary-foreground: oklch(0.985 0.005 264);
+
+  --secondary: oklch(0.94 0.01 264);
+  --secondary-foreground: oklch(0.205 0.02 264);
+
+  --muted: oklch(0.94 0.01 264);
+  --muted-foreground: oklch(0.56 0.02 264);
+
+  --accent: oklch(0.94 0.01 264);
+  --accent-foreground: oklch(0.205 0.02 264);
+
+  --destructive: oklch(0.55 0.22 27);
+  --destructive-foreground: oklch(0.985 0 0);
+
+  --border: oklch(0.88 0.01 264);
+  --input: oklch(0.88 0.01 264);
+  --ring: oklch(0.585 0.233 264);
+
+  --radius: 0.625rem;
+
+  /* Typography */
+  --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-level-a: oklch(0.7 0.19 264);
+    --color-level-a-light: oklch(0.8 0.14 264);
+    --color-level-a-dark: oklch(0.55 0.22 264);
+
+    --color-level-b: oklch(0.72 0.16 163);
+    --color-level-b-light: oklch(0.82 0.12 163);
+    --color-level-b-dark: oklch(0.55 0.18 163);
+
+    --color-level-c: oklch(0.76 0.15 62);
+    --color-level-c-light: oklch(0.85 0.11 62);
+    --color-level-c-dark: oklch(0.6 0.17 62);
+
+    --background: oklch(0.13 0.015 264);
+    --foreground: oklch(0.94 0.005 264);
+
+    --card: oklch(0.17 0.015 264);
+    --card-foreground: oklch(0.94 0.005 264);
+
+    --popover: oklch(0.17 0.015 264);
+    --popover-foreground: oklch(0.94 0.005 264);
+
+    --primary: oklch(0.7 0.19 264);
+    --primary-foreground: oklch(0.13 0.015 264);
+
+    --secondary: oklch(0.22 0.02 264);
+    --secondary-foreground: oklch(0.94 0.005 264);
+
+    --muted: oklch(0.22 0.02 264);
+    --muted-foreground: oklch(0.6 0.02 264);
+
+    --accent: oklch(0.22 0.02 264);
+    --accent-foreground: oklch(0.94 0.005 264);
+
+    --destructive: oklch(0.6 0.22 27);
+    --destructive-foreground: oklch(0.985 0 0);
+
+    --border: oklch(0.26 0.02 264);
+    --input: oklch(0.26 0.02 264);
+    --ring: oklch(0.7 0.19 264);
+  }
+}
+
+/* ── Tailwind v4 Theme ───────────────────────────────────────────── */
+
+@theme {
+  --color-level-a: var(--color-level-a);
+  --color-level-a-light: var(--color-level-a-light);
+  --color-level-a-dark: var(--color-level-a-dark);
+
+  --color-level-b: var(--color-level-b);
+  --color-level-b-light: var(--color-level-b-light);
+  --color-level-b-dark: var(--color-level-b-dark);
+
+  --color-level-c: var(--color-level-c);
+  --color-level-c-light: var(--color-level-c-light);
+  --color-level-c-dark: var(--color-level-c-dark);
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --radius-sm: calc(var(--radius) - 0.25rem);
+  --radius-md: var(--radius);
+  --radius-lg: calc(var(--radius) + 0.25rem);
+  --radius-xl: calc(var(--radius) + 0.5rem);
+
+  --font-sans: var(--font-sans);
+  --font-mono: var(--font-mono);
+}
+
+/* ── Base Styles ─────────────────────────────────────────────────── */
+
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  margin: 0;
+  min-height: 100dvh;
+  font-family: var(--font-sans);
+  line-height: 1.6;
+  color: var(--foreground);
+  background-color: var(--background);
+}
+
+*,
+*::before,
+*::after {
+  border-color: var(--border);
+}
+
+/* ── Print Styles ────────────────────────────────────────────────── */
+
+@media print {
+  *,
+  *::before,
+  *::after {
+    background: transparent !important;
+    color: #000 !important;
+    box-shadow: none !important;
+    text-shadow: none !important;
+  }
+
+  body {
+    font-size: 12pt;
+    line-height: 1.5;
+  }
+
+  a,
+  a:visited {
+    text-decoration: underline;
+  }
+
+  a[href]::after {
+    content: " (" attr(href) ")";
+    font-size: 0.8em;
+    opacity: 0.7;
+  }
+
+  h1, h2, h3 {
+    page-break-after: avoid;
+  }
+
+  img, table, figure {
+    page-break-inside: avoid;
+  }
+
+  @page {
+    margin: 2cm;
+  }
+}
