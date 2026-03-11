@@ -24,9 +24,9 @@ const AUDIENCES: { value: TalkTrackAudience; label: string }[] = [
 ];
 
 const audienceColor: Record<TalkTrackAudience, string> = {
-  exec: 'bg-indigo-500',
-  leads: 'bg-emerald-500',
-  pod: 'bg-amber-500',
+  exec: 'bg-level-a',
+  leads: 'bg-level-b',
+  pod: 'bg-level-c',
 };
 
 // ── Page ─────────────────────────────────────────────────────────────
@@ -59,23 +59,23 @@ export default function TalkTracksPage() {
 
   return (
     <motion.main
-      initial={{ opacity: 0, y: 16 }}
+      initial={{ opacity: 0, y: 12 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.4 }}
+      transition={{ duration: 0.35 }}
       className="mx-auto max-w-3xl px-4 py-8 sm:px-6 lg:px-8"
     >
       <Breadcrumb items={breadcrumbItems} className="mb-6" />
 
-      <h1 className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">
+      <h1 className="text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
         Talk Tracks
       </h1>
-      <p className="mt-2 mb-8 text-sm text-gray-600">
+      <p className="mt-2 mb-8 text-sm text-muted-foreground">
         Ready-made narratives for different audiences and timeframes. Select a duration and audience to see the talk track.
       </p>
 
       {/* ── Duration tabs ─────────────────────────────────────────── */}
       <section className="mb-6">
-        <h2 className="mb-2 text-xs font-semibold uppercase tracking-wider text-gray-400">
+        <h2 className="mb-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
           Duration
         </h2>
         <Tabs
@@ -94,7 +94,7 @@ export default function TalkTracksPage() {
 
       {/* ── Audience toggle ───────────────────────────────────────── */}
       <section className="mb-8">
-        <h2 className="mb-2 text-xs font-semibold uppercase tracking-wider text-gray-400">
+        <h2 className="mb-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
           Audience
         </h2>
         <div className="flex gap-2">
@@ -121,9 +121,9 @@ export default function TalkTracksPage() {
       {track && (
         <motion.div
           key={track.id}
-          initial={{ opacity: 0, y: 12 }}
+          initial={{ opacity: 0, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.3 }}
+          transition={{ duration: 0.25 }}
         >
           <Card>
             <CardHeader>
@@ -143,7 +143,7 @@ export default function TalkTracksPage() {
                 >
                   {copied ? (
                     <>
-                      <Check className="mr-1 h-3.5 w-3.5 text-green-600" />
+                      <Check className="mr-1 h-3.5 w-3.5 text-level-b" />
                       Copied
                     </>
                   ) : (
@@ -156,9 +156,9 @@ export default function TalkTracksPage() {
               </div>
             </CardHeader>
             <CardContent>
-              <div className="prose prose-sm max-w-none text-gray-700">
+              <div className="max-w-none text-foreground/80">
                 {track.text.split('\n\n').map((paragraph, i) => (
-                  <p key={i} className="mb-4 last:mb-0 leading-relaxed">
+                  <p key={i} className="mb-4 text-sm last:mb-0 leading-relaxed">
                     {paragraph}
                   </p>
                 ))}
@@ -170,14 +170,14 @@ export default function TalkTracksPage() {
 
       {/* ── Grid showing all 9 combinations ──────────────────────── */}
       <section className="mt-10">
-        <h2 className="mb-4 text-sm font-semibold text-gray-900">All Combinations</h2>
+        <h2 className="mb-4 text-sm font-semibold text-foreground">All Combinations</h2>
         <div className="grid grid-cols-[auto_1fr_1fr_1fr] gap-2">
           {/* Header row */}
           <div />
           {AUDIENCES.map((a) => (
             <div
               key={a.value}
-              className="pb-1 text-center text-xs font-semibold uppercase tracking-wider text-gray-400"
+              className="pb-1 text-center text-xs font-semibold uppercase tracking-wider text-muted-foreground"
             >
               {a.label}
             </div>
@@ -186,7 +186,7 @@ export default function TalkTracksPage() {
           {/* Data rows */}
           {DURATIONS.map((d) => (
             <div key={d.value} className="contents">
-              <div className="flex items-center pr-3 text-xs font-semibold text-gray-500 whitespace-nowrap">
+              <div className="flex items-center pr-3 text-xs font-semibold text-muted-foreground whitespace-nowrap">
                 {d.label}
               </div>
               {AUDIENCES.map((a) => {
@@ -201,8 +201,8 @@ export default function TalkTracksPage() {
                     }}
                     className={`rounded-lg border px-3 py-2.5 text-center text-xs font-medium transition-all ${
                       isActive
-                        ? 'border-gray-900 bg-gray-900 text-white shadow-sm'
-                        : 'border-gray-200 bg-white text-gray-600 hover:border-gray-300 hover:bg-gray-50'
+                        ? 'border-foreground bg-foreground text-background shadow-sm'
+                        : 'border-border bg-card text-muted-foreground hover:border-border/80 hover:bg-secondary'
                     }`}
                   >
                     {a.label}

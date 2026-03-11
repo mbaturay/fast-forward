@@ -7,10 +7,10 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 
-const levelAccent: Record<LevelId, { border: string; bg: string; badge: "indigo" | "emerald" | "amber" }> = {
-  a: { border: "border-l-indigo-500", bg: "bg-indigo-50", badge: "indigo" },
-  b: { border: "border-l-emerald-500", bg: "bg-emerald-50", badge: "emerald" },
-  c: { border: "border-l-amber-500", bg: "bg-amber-50", badge: "amber" },
+const levelAccent: Record<LevelId, { accent: string; bg: string; badge: "indigo" | "emerald" | "amber" }> = {
+  a: { accent: "bg-level-a", bg: "bg-level-a-light", badge: "indigo" },
+  b: { accent: "bg-level-b", bg: "bg-level-b-light", badge: "emerald" },
+  c: { accent: "bg-level-c", bg: "bg-level-c-light", badge: "amber" },
 };
 
 interface LevelOverviewProps {
@@ -24,23 +24,26 @@ export function LevelOverview({ level, className }: LevelOverviewProps) {
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 24 }}
+      initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.4, ease: "easeOut" }}
+      transition={{ duration: 0.35, ease: [0.25, 0.46, 0.45, 0.94] }}
       className={className}
     >
-      <Card className={cn("border-l-4 overflow-hidden", accent.border)}>
+      <Card className="overflow-hidden">
+        {/* Top accent stripe */}
+        <div className={`h-1 w-full ${accent.accent}`} />
+
         <CardHeader className="space-y-3">
           {/* Title block */}
           <div>
-            <h2 className="text-2xl font-bold tracking-tight text-gray-900">
+            <h2 className="text-2xl font-bold tracking-tight text-foreground">
               {level.title}
             </h2>
-            <p className="mt-1 text-base text-gray-500">{level.subtitle}</p>
+            <p className="mt-1 text-base text-muted-foreground">{level.subtitle}</p>
           </div>
 
           {/* Purpose */}
-          <p className="text-sm leading-relaxed text-gray-700">
+          <p className="text-sm leading-relaxed text-foreground/80">
             {level.purpose}
           </p>
 
@@ -57,23 +60,23 @@ export function LevelOverview({ level, className }: LevelOverviewProps) {
         <CardContent className="space-y-6">
           {/* View callout */}
           <div className={cn("rounded-lg px-4 py-3", accent.bg)}>
-            <p className="text-sm font-medium text-gray-800">
+            <p className="text-sm font-medium text-foreground/80">
               This is the <span className="font-semibold">{level.view}</span>
             </p>
           </div>
 
           {/* Key questions */}
           <div>
-            <h3 className="mb-2 text-sm font-semibold text-gray-900">
+            <h3 className="mb-2 text-sm font-semibold text-foreground">
               Key Questions It Answers
             </h3>
             <ul className="space-y-1.5">
               {level.answersQuestions.map((q) => (
                 <li
                   key={q}
-                  className="flex items-start gap-2 text-sm text-gray-700"
+                  className="flex items-start gap-2 text-sm text-foreground/80"
                 >
-                  <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-gray-400" />
+                  <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-muted-foreground/40" />
                   {q}
                 </li>
               ))}

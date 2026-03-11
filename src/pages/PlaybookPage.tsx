@@ -157,17 +157,6 @@ const levelBadgeVariant: Record<LevelId, 'levelA' | 'levelB' | 'levelC'> = {
   c: 'levelC',
 };
 
-// ── Section icon map ─────────────────────────────────────────────────
-
-const sectionConfig = [
-  { id: 'entry', icon: ClipboardCheck, title: 'Entry Criteria' },
-  { id: 'inputs', icon: ArrowDownToLine, title: 'Required Inputs per Level' },
-  { id: 'outputs', icon: Layers, title: 'Outputs per Phase' },
-  { id: 'quality', icon: Shield, title: 'Quality Gates & Guardrails' },
-  { id: 'roles', icon: Users, title: 'Roles & Responsibilities' },
-  { id: 'artifacts', icon: FileText, title: 'Suggested Artifact Templates' },
-] as const;
-
 // ── Page ─────────────────────────────────────────────────────────────
 
 export default function PlaybookPage() {
@@ -178,37 +167,37 @@ export default function PlaybookPage() {
 
   return (
     <motion.main
-      initial={{ opacity: 0, y: 16 }}
+      initial={{ opacity: 0, y: 12 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.4 }}
+      transition={{ duration: 0.35 }}
       className="mx-auto max-w-4xl px-4 py-8 sm:px-6 lg:px-8"
     >
       <Breadcrumb items={breadcrumbItems} className="mb-6" />
 
-      <h1 className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">
+      <h1 className="text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
         Company Playbook
       </h1>
-      <p className="mt-2 mb-8 max-w-2xl text-sm text-gray-600">
+      <p className="mt-2 mb-8 max-w-2xl text-sm text-muted-foreground">
         Practical guide for running the Fast Forward / Protogen operating model. Entry criteria, inputs, roles, quality gates, and artifact templates.
       </p>
 
-      <Accordion type="multiple" defaultValue={['entry']} className="space-y-4">
+      <Accordion type="multiple" defaultValue={['entry']} className="space-y-3">
         {/* ── Entry Criteria ──────────────────────────────────────── */}
-        <AccordionItem value="entry" className="rounded-xl border shadow-sm">
+        <AccordionItem value="entry" className="rounded-xl border border-border shadow-sm shadow-black/[0.03]">
           <AccordionTrigger className="px-5">
             <span className="flex items-center gap-3">
-              <ClipboardCheck className="h-5 w-5 text-gray-500" />
+              <ClipboardCheck className="h-5 w-5 text-muted-foreground" />
               <span className="text-base font-semibold">Entry Criteria</span>
             </span>
           </AccordionTrigger>
           <AccordionContent className="px-5">
-            <p className="mb-3 text-sm text-gray-600">
+            <p className="mb-3 text-sm text-muted-foreground">
               Before starting a Fast Forward engagement, ensure these criteria are met:
             </p>
             <ul className="space-y-2">
               {entryCriteria.map((criterion) => (
-                <li key={criterion} className="flex items-start gap-2 text-sm text-gray-700">
-                  <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-gray-400" />
+                <li key={criterion} className="flex items-start gap-2 text-sm text-foreground/80">
+                  <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-muted-foreground/40" />
                   {criterion}
                 </li>
               ))}
@@ -217,10 +206,10 @@ export default function PlaybookPage() {
         </AccordionItem>
 
         {/* ── Required Inputs ─────────────────────────────────────── */}
-        <AccordionItem value="inputs" className="rounded-xl border shadow-sm">
+        <AccordionItem value="inputs" className="rounded-xl border border-border shadow-sm shadow-black/[0.03]">
           <AccordionTrigger className="px-5">
             <span className="flex items-center gap-3">
-              <ArrowDownToLine className="h-5 w-5 text-gray-500" />
+              <ArrowDownToLine className="h-5 w-5 text-muted-foreground" />
               <span className="text-base font-semibold">Required Inputs per Level</span>
             </span>
           </AccordionTrigger>
@@ -228,14 +217,14 @@ export default function PlaybookPage() {
             <div className="space-y-5">
               {requiredInputs.map((item) => (
                 <div key={item.level}>
-                  <h4 className="mb-2 flex items-center gap-2 text-sm font-semibold text-gray-900">
+                  <h4 className="mb-2 flex items-center gap-2 text-sm font-semibold text-foreground">
                     <Badge variant={levelBadgeVariant[item.level]}>{item.level.toUpperCase()}</Badge>
                     {item.label}
                   </h4>
                   <ul className="ml-4 space-y-1.5">
                     {item.inputs.map((input) => (
-                      <li key={input} className="flex items-start gap-2 text-sm text-gray-700">
-                        <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-gray-400" />
+                      <li key={input} className="flex items-start gap-2 text-sm text-foreground/80">
+                        <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-muted-foreground/40" />
                         {input}
                       </li>
                     ))}
@@ -247,10 +236,10 @@ export default function PlaybookPage() {
         </AccordionItem>
 
         {/* ── Outputs per Phase ────────────────────────────────────── */}
-        <AccordionItem value="outputs" className="rounded-xl border shadow-sm">
+        <AccordionItem value="outputs" className="rounded-xl border border-border shadow-sm shadow-black/[0.03]">
           <AccordionTrigger className="px-5">
             <span className="flex items-center gap-3">
-              <Layers className="h-5 w-5 text-gray-500" />
+              <Layers className="h-5 w-5 text-muted-foreground" />
               <span className="text-base font-semibold">Outputs per Phase</span>
             </span>
           </AccordionTrigger>
@@ -258,19 +247,19 @@ export default function PlaybookPage() {
             <div className="space-y-6">
               {levels.map((level) => (
                 <div key={level.id}>
-                  <h4 className="mb-3 flex items-center gap-2 text-sm font-semibold text-gray-900">
+                  <h4 className="mb-3 flex items-center gap-2 text-sm font-semibold text-foreground">
                     <Badge variant={levelBadgeVariant[level.id]}>{level.id.toUpperCase()}</Badge>
                     {level.shortName}
                   </h4>
                   <div className="space-y-2 ml-4">
                     {level.phases.map((phase) => (
                       <div key={phase.id} className="flex items-start gap-3 text-sm">
-                        <span className="shrink-0 font-mono text-xs font-bold text-gray-400 mt-0.5 w-6">
+                        <span className="shrink-0 font-mono text-xs font-bold text-muted-foreground mt-0.5 w-6">
                           {phase.id.toUpperCase()}
                         </span>
                         <div>
-                          <span className="font-medium text-gray-800">{phase.title}:</span>{' '}
-                          <span className="text-gray-600">{phase.outputs.join(', ')}</span>
+                          <span className="font-medium text-foreground">{phase.title}:</span>{' '}
+                          <span className="text-muted-foreground">{phase.outputs.join(', ')}</span>
                         </div>
                       </div>
                     ))}
@@ -282,10 +271,10 @@ export default function PlaybookPage() {
         </AccordionItem>
 
         {/* ── Quality Gates & Guardrails ──────────────────────────── */}
-        <AccordionItem value="quality" className="rounded-xl border shadow-sm">
+        <AccordionItem value="quality" className="rounded-xl border border-border shadow-sm shadow-black/[0.03]">
           <AccordionTrigger className="px-5">
             <span className="flex items-center gap-3">
-              <Shield className="h-5 w-5 text-gray-500" />
+              <Shield className="h-5 w-5 text-muted-foreground" />
               <span className="text-base font-semibold">Quality Gates &amp; Guardrails</span>
             </span>
           </AccordionTrigger>
@@ -293,7 +282,7 @@ export default function PlaybookPage() {
             <div className="space-y-8">
               {levels.map((level) => (
                 <div key={level.id}>
-                  <h4 className="mb-3 flex items-center gap-2 text-sm font-semibold text-gray-900">
+                  <h4 className="mb-3 flex items-center gap-2 text-sm font-semibold text-foreground">
                     <Badge variant={levelBadgeVariant[level.id]}>{level.id.toUpperCase()}</Badge>
                     {level.shortName} Guardrails
                   </h4>
@@ -305,10 +294,10 @@ export default function PlaybookPage() {
         </AccordionItem>
 
         {/* ── Roles & Responsibilities ────────────────────────────── */}
-        <AccordionItem value="roles" className="rounded-xl border shadow-sm">
+        <AccordionItem value="roles" className="rounded-xl border border-border shadow-sm shadow-black/[0.03]">
           <AccordionTrigger className="px-5">
             <span className="flex items-center gap-3">
-              <Users className="h-5 w-5 text-gray-500" />
+              <Users className="h-5 w-5 text-muted-foreground" />
               <span className="text-base font-semibold">Roles &amp; Responsibilities</span>
             </span>
           </AccordionTrigger>
@@ -317,23 +306,23 @@ export default function PlaybookPage() {
             <div className="hidden sm:block overflow-x-auto">
               <table className="w-full text-sm">
                 <thead>
-                  <tr className="border-b border-gray-200">
-                    <th className="py-2 pr-4 text-left font-semibold text-gray-900">Role</th>
-                    <th className="py-2 pr-4 text-left font-semibold text-gray-900">Responsibility</th>
-                    <th className="py-2 text-left font-semibold text-gray-900">When</th>
+                  <tr className="border-b border-border">
+                    <th className="py-2 pr-4 text-left font-semibold text-foreground">Role</th>
+                    <th className="py-2 pr-4 text-left font-semibold text-foreground">Responsibility</th>
+                    <th className="py-2 text-left font-semibold text-foreground">When</th>
                   </tr>
                 </thead>
                 <tbody>
                   {roles.map((r, i) => (
                     <tr
                       key={r.role}
-                      className={i % 2 === 0 ? 'bg-gray-50/50' : ''}
+                      className={i % 2 === 0 ? 'bg-secondary/30' : ''}
                     >
-                      <td className="py-2.5 pr-4 font-medium text-gray-800 align-top whitespace-nowrap">
+                      <td className="py-2.5 pr-4 font-medium text-foreground align-top whitespace-nowrap">
                         {r.role}
                       </td>
-                      <td className="py-2.5 pr-4 text-gray-600 align-top">{r.responsibility}</td>
-                      <td className="py-2.5 text-gray-500 align-top text-xs">{r.when}</td>
+                      <td className="py-2.5 pr-4 text-muted-foreground align-top">{r.responsibility}</td>
+                      <td className="py-2.5 text-muted-foreground align-top text-xs">{r.when}</td>
                     </tr>
                   ))}
                 </tbody>
@@ -346,8 +335,8 @@ export default function PlaybookPage() {
                 <Card key={r.role}>
                   <CardContent className="p-4 space-y-2">
                     <CardTitle className="text-sm">{r.role}</CardTitle>
-                    <p className="text-sm text-gray-600">{r.responsibility}</p>
-                    <p className="text-xs text-gray-400">{r.when}</p>
+                    <p className="text-sm text-muted-foreground">{r.responsibility}</p>
+                    <p className="text-xs text-muted-foreground/60">{r.when}</p>
                   </CardContent>
                 </Card>
               ))}
@@ -356,10 +345,10 @@ export default function PlaybookPage() {
         </AccordionItem>
 
         {/* ── Artifact Templates ──────────────────────────────────── */}
-        <AccordionItem value="artifacts" className="rounded-xl border shadow-sm">
+        <AccordionItem value="artifacts" className="rounded-xl border border-border shadow-sm shadow-black/[0.03]">
           <AccordionTrigger className="px-5">
             <span className="flex items-center gap-3">
-              <FileText className="h-5 w-5 text-gray-500" />
+              <FileText className="h-5 w-5 text-muted-foreground" />
               <span className="text-base font-semibold">Suggested Artifact Templates</span>
             </span>
           </AccordionTrigger>
@@ -367,13 +356,13 @@ export default function PlaybookPage() {
             <div className="space-y-5">
               {artifactTemplates.map((template) => (
                 <div key={template.name}>
-                  <h4 className="mb-2 text-sm font-semibold text-gray-900">
+                  <h4 className="mb-2 text-sm font-semibold text-foreground">
                     {template.name}
                   </h4>
-                  <div className="rounded-lg border border-gray-200 bg-gray-50 p-4 font-mono text-xs leading-relaxed text-gray-700">
+                  <div className="rounded-lg border border-border bg-secondary/50 p-4 font-mono text-xs leading-relaxed text-foreground/70">
                     {template.sections.map((section, i) => (
                       <div key={section}>
-                        <span className="text-gray-400">{i + 1}.</span>{' '}
+                        <span className="text-muted-foreground">{i + 1}.</span>{' '}
                         <span>{section}</span>
                       </div>
                     ))}

@@ -82,91 +82,91 @@ export default function GuidedJourneyPage() {
     >
       <Breadcrumb items={breadcrumbItems} className="mb-6" />
 
-      <div className="flex flex-col gap-8 lg:flex-row">
-        {/* ── Sidebar: hierarchy nav (desktop) / top bar (mobile) ──── */}
-        <aside className="shrink-0 lg:w-56">
-          <div className="sticky top-8">
-            <h2 className="mb-3 text-xs font-semibold uppercase tracking-wider text-gray-400">
-              You are here
-            </h2>
-            <HierarchyNavigator
-              currentLevel={currentLevelId}
-              onSelect={navigateToLevel}
-            />
-          </div>
-        </aside>
-
-        {/* ── Main content ────────────────────────────────────────── */}
-        <div className="min-w-0 flex-1">
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={currentLevelId}
-              initial={{ opacity: 0, x: 30 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -30 }}
-              transition={{ duration: 0.35, ease: 'easeInOut' }}
-              className="space-y-10"
-            >
-              {/* Level overview */}
-              <LevelOverview level={level} />
-
-              {/* Phase timeline */}
-              <section>
-                <h2 className="mb-4 text-lg font-semibold text-gray-900">Phases</h2>
-                <PhaseTimeline
-                  phases={level.phases}
-                  levelId={currentLevelId}
-                  onPhaseClick={handlePhaseClick}
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={currentLevelId}
+          initial={{ opacity: 0, x: 24 }}
+          animate={{ opacity: 1, x: 0 }}
+          exit={{ opacity: 0, x: -24 }}
+          transition={{ duration: 0.3, ease: 'easeInOut' as const }}
+        >
+          {/* ── Top section: sidebar + overview ──────────────────────── */}
+          <div className="flex flex-col gap-8 lg:flex-row">
+            <aside className="shrink-0 lg:w-56">
+              <div className="sticky top-20">
+                <h2 className="mb-3 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                  You are here
+                </h2>
+                <HierarchyNavigator
+                  currentLevel={currentLevelId}
+                  onSelect={navigateToLevel}
                 />
-              </section>
-
-              {/* Navigation row */}
-              <div className="flex flex-wrap items-center gap-3 pt-2">
-                {prevLevel && (
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => navigateToLevel(prevLevel)}
-                  >
-                    <ArrowLeft className="mr-1 h-3.5 w-3.5" />
-                    Back to {levelsById[prevLevel].shortName}
-                  </Button>
-                )}
-                {hint.target && (
-                  <Button size="sm" onClick={() => navigateToLevel(hint.target!)}>
-                    Continue to {levelsById[hint.target].shortName}
-                    <ArrowRight className="ml-1 h-3.5 w-3.5" />
-                  </Button>
-                )}
               </div>
+            </aside>
 
-              {/* "What comes next" */}
-              <section aria-label="What comes next">
-                <Card className="border-dashed">
-                  <CardContent className="flex items-start gap-3 p-5">
-                    <ChevronRight className="mt-0.5 h-5 w-5 shrink-0 text-gray-400" />
-                    <div>
-                      <h3 className="text-sm font-semibold text-gray-900">What Comes Next</h3>
-                      <p className="mt-1 text-sm text-gray-600">{hint.text}</p>
-                      {hint.target && (
-                        <Button
-                          variant="link"
-                          size="sm"
-                          className="mt-2 h-auto p-0"
-                          onClick={() => navigateToLevel(hint.target!)}
-                        >
-                          Go to {levelsById[hint.target].shortName}
-                          <ArrowRight className="ml-1 h-3 w-3" />
-                        </Button>
-                      )}
-                    </div>
-                  </CardContent>
-                </Card>
-              </section>
-            </motion.div>
-          </AnimatePresence>
-        </div>
-      </div>
+            <div className="min-w-0 flex-1">
+              <LevelOverview level={level} />
+            </div>
+          </div>
+
+          {/* ── Phases: full width, breaks out of sidebar layout ────── */}
+          <section className="mt-10">
+            <h2 className="mb-5 text-lg font-semibold text-foreground">Phases</h2>
+            <PhaseTimeline
+              phases={level.phases}
+              levelId={currentLevelId}
+              onPhaseClick={handlePhaseClick}
+            />
+          </section>
+
+          {/* ── Bottom section: navigation + hint ────────────────────── */}
+          <div className="mt-10 space-y-8">
+            {/* Navigation row */}
+            <div className="flex flex-wrap items-center gap-3">
+              {prevLevel && (
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => navigateToLevel(prevLevel)}
+                >
+                  <ArrowLeft className="mr-1 h-3.5 w-3.5" />
+                  Back to {levelsById[prevLevel].shortName}
+                </Button>
+              )}
+              {hint.target && (
+                <Button size="sm" onClick={() => navigateToLevel(hint.target!)}>
+                  Continue to {levelsById[hint.target].shortName}
+                  <ArrowRight className="ml-1 h-3.5 w-3.5" />
+                </Button>
+              )}
+            </div>
+
+            {/* "What comes next" */}
+            <section aria-label="What comes next">
+              <Card className="border-dashed">
+                <CardContent className="flex items-start gap-3 p-5">
+                  <ChevronRight className="mt-0.5 h-5 w-5 shrink-0 text-muted-foreground" />
+                  <div>
+                    <h3 className="text-sm font-semibold text-foreground">What Comes Next</h3>
+                    <p className="mt-1 text-sm text-muted-foreground">{hint.text}</p>
+                    {hint.target && (
+                      <Button
+                        variant="link"
+                        size="sm"
+                        className="mt-2 h-auto p-0"
+                        onClick={() => navigateToLevel(hint.target!)}
+                      >
+                        Go to {levelsById[hint.target].shortName}
+                        <ArrowRight className="ml-1 h-3 w-3" />
+                      </Button>
+                    )}
+                  </div>
+                </CardContent>
+              </Card>
+            </section>
+          </div>
+        </motion.div>
+      </AnimatePresence>
 
       {/* ── Phase detail drawer ───────────────────────────────────── */}
       <PhaseDetailDrawer

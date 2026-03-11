@@ -3,27 +3,27 @@ import { cva, type VariantProps } from "class-variance-authority"
 import { cn } from "@/lib/utils"
 
 const badgeVariants = cva(
-  "inline-flex items-center rounded-md border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2",
+  "inline-flex items-center rounded-md border px-2 py-0.5 text-xs font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2",
   {
     variants: {
       variant: {
         default:
-          "border-transparent bg-gray-900 text-white shadow",
+          "border-transparent bg-foreground text-background shadow-sm",
         secondary:
-          "border-transparent bg-gray-100 text-gray-900",
-        outline: "text-gray-950",
+          "border-transparent bg-secondary text-secondary-foreground",
+        outline: "text-foreground border-border",
         levelA:
-          "border-transparent bg-indigo-500 text-white shadow-sm",
+          "border-transparent bg-level-a text-white shadow-sm",
         levelB:
-          "border-transparent bg-emerald-500 text-white shadow-sm",
+          "border-transparent bg-level-b text-white shadow-sm",
         levelC:
-          "border-transparent bg-amber-500 text-white shadow-sm",
+          "border-transparent bg-level-c text-white shadow-sm",
         indigo:
-          "border-transparent bg-indigo-100 text-indigo-800",
+          "border-transparent bg-level-a-light text-level-a-dark",
         emerald:
-          "border-transparent bg-emerald-100 text-emerald-800",
+          "border-transparent bg-level-b-light text-level-b-dark",
         amber:
-          "border-transparent bg-amber-100 text-amber-800",
+          "border-transparent bg-level-c-light text-level-c-dark",
       },
     },
     defaultVariants: {

@@ -22,13 +22,13 @@ export function Breadcrumb({ items, className }: BreadcrumbProps) {
           return (
             <li key={item.label} className="flex items-center gap-1">
               {index > 0 && (
-                <ChevronRight className="h-3.5 w-3.5 shrink-0 text-gray-400" />
+                <ChevronRight className="h-3.5 w-3.5 shrink-0 text-muted-foreground/40" />
               )}
               {isLast || !item.href ? (
                 <span
                   className={cn(
                     "font-medium",
-                    isLast ? "text-gray-900" : "text-gray-500"
+                    isLast ? "text-foreground" : "text-muted-foreground"
                   )}
                   aria-current={isLast ? "page" : undefined}
                 >
@@ -37,7 +37,7 @@ export function Breadcrumb({ items, className }: BreadcrumbProps) {
               ) : (
                 <Link
                   to={item.href}
-                  className="text-gray-500 transition-colors hover:text-gray-900"
+                  className="text-muted-foreground transition-colors hover:text-foreground"
                 >
                   {item.label}
                 </Link>

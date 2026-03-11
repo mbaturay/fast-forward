@@ -68,17 +68,17 @@ export function SearchDialog({ open, onClose }: SearchDialogProps) {
         <DialogTitle className="sr-only">Search</DialogTitle>
 
         {/* Search input */}
-        <div className="flex items-center border-b border-gray-200 px-4">
-          <SearchIcon className="mr-2 h-4 w-4 shrink-0 text-gray-400" />
+        <div className="flex items-center border-b border-border px-4">
+          <SearchIcon className="mr-2 h-4 w-4 shrink-0 text-muted-foreground" />
           <input
             type="text"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Search levels, phases, glossary..."
-            className="h-12 w-full bg-transparent text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none"
+            className="h-12 w-full bg-transparent text-sm text-foreground placeholder:text-muted-foreground focus:outline-none"
             autoFocus
           />
-          <kbd className="hidden shrink-0 rounded border border-gray-200 bg-gray-50 px-1.5 py-0.5 text-[10px] font-medium text-gray-400 sm:inline-block">
+          <kbd className="hidden shrink-0 rounded border border-border bg-secondary px-1.5 py-0.5 text-[10px] font-medium text-muted-foreground sm:inline-block">
             ESC
           </kbd>
         </div>
@@ -86,14 +86,14 @@ export function SearchDialog({ open, onClose }: SearchDialogProps) {
         {/* Results */}
         <div className="max-h-[360px] overflow-y-auto px-2 py-2">
           {query.length >= 2 && results.length === 0 && (
-            <p className="px-3 py-6 text-center text-sm text-gray-500">
+            <p className="px-3 py-6 text-center text-sm text-muted-foreground">
               No results found for &ldquo;{query}&rdquo;
             </p>
           )}
 
           {Object.entries(grouped).map(([type, items]) => (
             <div key={type} className="mb-2">
-              <p className="px-3 py-1.5 text-xs font-semibold uppercase tracking-wider text-gray-400">
+              <p className="px-3 py-1.5 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                 {typeLabels[type as SearchResult["type"]]}
               </p>
               {items.map((result) => (
@@ -102,13 +102,13 @@ export function SearchDialog({ open, onClose }: SearchDialogProps) {
                   type="button"
                   onClick={() => handleSelect(result)}
                   className={cn(
-                    "flex w-full flex-col gap-0.5 rounded-md px-3 py-2 text-left transition-colors hover:bg-gray-100"
+                    "flex w-full flex-col gap-0.5 rounded-lg px-3 py-2 text-left transition-colors hover:bg-secondary"
                   )}
                 >
-                  <span className="text-sm font-medium text-gray-900">
+                  <span className="text-sm font-medium text-foreground">
                     {result.title}
                   </span>
-                  <span className="line-clamp-1 text-xs text-gray-500">
+                  <span className="line-clamp-1 text-xs text-muted-foreground">
                     {result.snippet}
                   </span>
                 </button>
@@ -117,7 +117,7 @@ export function SearchDialog({ open, onClose }: SearchDialogProps) {
           ))}
 
           {query.length < 2 && (
-            <p className="px-3 py-6 text-center text-sm text-gray-400">
+            <p className="px-3 py-6 text-center text-sm text-muted-foreground/60">
               Type at least 2 characters to search
             </p>
           )}

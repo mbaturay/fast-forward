@@ -4,9 +4,9 @@ import { cn } from "@/lib/utils";
 import { Card, CardContent } from "@/components/ui/card";
 
 const levelIconColor: Record<LevelId, string> = {
-  a: "text-indigo-500",
-  b: "text-emerald-500",
-  c: "text-amber-500",
+  a: "text-level-a",
+  b: "text-level-b",
+  c: "text-level-c",
 };
 
 // Map guardrail ids to appropriate icons; fallback to Shield
@@ -36,7 +36,7 @@ export function GuardrailsPanel({
   return (
     <div
       className={cn(
-        "grid gap-4 sm:grid-cols-2 lg:grid-cols-3",
+        "grid gap-3 sm:grid-cols-2 lg:grid-cols-3",
         className
       )}
     >
@@ -44,16 +44,16 @@ export function GuardrailsPanel({
         const Icon = iconMap[guardrail.id] ?? Shield;
 
         return (
-          <Card key={guardrail.id} className="transition-shadow hover:shadow-md">
+          <Card key={guardrail.id} className="transition-all hover:shadow-md">
             <CardContent className="flex gap-3 p-4">
               <div className={cn("mt-0.5 shrink-0", iconColor)}>
-                <Icon className="h-5 w-5" />
+                <Icon className="h-4.5 w-4.5" />
               </div>
               <div className="min-w-0">
-                <h3 className="text-sm font-semibold text-gray-900">
+                <h3 className="text-sm font-semibold text-foreground">
                   {guardrail.title}
                 </h3>
-                <p className="mt-1 text-xs leading-relaxed text-gray-600">
+                <p className="mt-1 text-xs leading-relaxed text-muted-foreground">
                   {guardrail.description}
                 </p>
               </div>

@@ -7,34 +7,34 @@ const levels: { id: LevelId; letter: string; name: string; color: string; active
     letter: "A",
     name: "Enterprise",
     color: "indigo",
-    activeBg: "bg-indigo-50",
-    activeBorder: "border-indigo-500",
-    activeText: "text-indigo-700",
+    activeBg: "bg-level-a-light",
+    activeBorder: "border-level-a",
+    activeText: "text-level-a-dark",
   },
   {
     id: "b",
     letter: "B",
     name: "SDLC",
     color: "emerald",
-    activeBg: "bg-emerald-50",
-    activeBorder: "border-emerald-500",
-    activeText: "text-emerald-700",
+    activeBg: "bg-level-b-light",
+    activeBorder: "border-level-b",
+    activeText: "text-level-b-dark",
   },
   {
     id: "c",
     letter: "C",
     name: "Module",
     color: "amber",
-    activeBg: "bg-amber-50",
-    activeBorder: "border-amber-500",
-    activeText: "text-amber-700",
+    activeBg: "bg-level-c-light",
+    activeBorder: "border-level-c",
+    activeText: "text-level-c-dark",
   },
 ];
 
 const dotColor: Record<LevelId, string> = {
-  a: "bg-indigo-500",
-  b: "bg-emerald-500",
-  c: "bg-amber-500",
+  a: "bg-level-a",
+  b: "bg-level-b",
+  c: "bg-level-c",
 };
 
 interface HierarchyNavigatorProps {
@@ -61,21 +61,18 @@ export function HierarchyNavigator({
 
         return (
           <div key={level.id} className="relative" style={{ marginLeft: left }}>
-            {/* Connector: vertical line down from previous card + arrow into this card */}
+            {/* Connector */}
             {index > 0 && (
               <svg
-                className="absolute text-gray-400"
+                className="absolute text-border"
                 style={{ left: -6, top: -10 }}
                 width="20"
                 height="22"
                 viewBox="0 0 20 22"
                 fill="none"
               >
-                {/* Vertical line */}
                 <line x1="1" y1="0" x2="1" y2="14" stroke="currentColor" strokeWidth="1.5" />
-                {/* Curve into card */}
                 <path d="M1 14 Q1 20 8 20" stroke="currentColor" strokeWidth="1.5" fill="none" />
-                {/* Arrow head */}
                 <path d="M6 17 L9 20 L6 23" stroke="currentColor" strokeWidth="1.5" fill="none" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
             )}
@@ -87,14 +84,14 @@ export function HierarchyNavigator({
                 "flex items-center gap-3 rounded-lg border-2 px-3 py-2 text-left transition-all",
                 isActive
                   ? cn(level.activeBg, level.activeBorder, level.activeText)
-                  : "border-transparent text-gray-600 hover:border-gray-200 hover:bg-gray-50"
+                  : "border-transparent text-muted-foreground hover:border-border hover:bg-secondary"
               )}
               style={{ width: CARD_W, marginBottom: index < levels.length - 1 ? 10 : 0 }}
             >
               <span
                 className={cn(
-                  "flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-xs font-bold text-white",
-                  isActive ? dotColor[level.id] : "bg-gray-300"
+                  "flex h-7 w-7 shrink-0 items-center justify-center rounded-lg text-xs font-bold text-white",
+                  isActive ? dotColor[level.id] : "bg-muted-foreground/30"
                 )}
               >
                 {level.letter}

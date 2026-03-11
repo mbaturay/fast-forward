@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { NavLink, Outlet } from "react-router-dom";
+import { NavLink, Outlet, useLocation } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import { Menu, X, Search } from "lucide-react";
 import { config } from "@/lib/config";
@@ -20,36 +20,56 @@ interface AppShellProps {
 
 export function AppShell({ children, onSearchOpen }: AppShellProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const location = useLocation();
+
+  /* Determine active nav index for the animated indicator */
+  const activeIndex = navItems.findIndex((item) =>
+    item.to === "/"
+      ? location.pathname === "/"
+      : location.pathname.startsWith(item.to)
+  );
 
   return (
-    <div className="flex min-h-screen flex-col bg-gray-50">
+    <div className="flex min-h-screen flex-col">
       {/* ── Header ─────────────────────────────────────────────────── */}
-      <header className="sticky top-0 z-40 border-b border-gray-200 bg-white">
+      <header className="sticky top-0 z-40 border-b border-border/60 bg-background/80 backdrop-blur-xl supports-[backdrop-filter]:bg-background/60">
         <div className="mx-auto flex h-14 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
-          {/* Logo / App name */}
-          <NavLink to="/" className="flex items-center gap-2">
-            <span className="text-base font-semibold tracking-tight text-gray-900">
+          {/* Logo */}
+          <NavLink to="/" className="flex items-center gap-2.5">
+            <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-foreground">
+              <span className="text-[10px] font-bold leading-none tracking-tight text-background">
+                FF
+              </span>
+            </div>
+            <span className="text-sm font-semibold tracking-tight text-foreground">
               {config.appName}
             </span>
           </NavLink>
 
           {/* Desktop nav */}
-          <nav className="hidden items-center gap-1 md:flex">
-            {navItems.map((item) => (
+          <nav className="hidden items-center gap-0.5 md:flex">
+            {navItems.map((item, i) => (
               <NavLink
                 key={item.to}
                 to={item.to}
                 end={item.to === "/"}
                 className={({ isActive }) =>
                   cn(
-                    "rounded-md px-3 py-1.5 text-sm font-medium transition-colors",
+                    "relative rounded-md px-3 py-1.5 text-sm font-medium transition-colors",
                     isActive
-                      ? "bg-gray-100 text-gray-900"
-                      : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
+                      ? "text-foreground"
+                      : "text-muted-foreground hover:text-foreground"
                   )
                 }
               >
-                {item.label}
+                {activeIndex === i && (
+                  <motion.span
+                    layoutId="nav-indicator"
+                    className="absolute inset-0 rounded-md bg-secondary"
+                    transition={{ type: "spring", duration: 0.4, bounce: 0.15 }}
+                  />
+                )}
+                <span className="relative z-10">{item.label}</span>
               </NavLink>
             ))}
           </nav>
@@ -59,7 +79,21 @@ export function AppShell({ children, onSearchOpen }: AppShellProps) {
             <button
               type="button"
               onClick={onSearchOpen}
-              className="inline-flex h-8 w-8 items-center justify-center rounded-md text-gray-500 transition-colors hover:bg-gray-100 hover:text-gray-900"
+              className="hidden items-center gap-2 rounded-lg border border-border/60 bg-secondary/50 px-2.5 py-1.5 text-xs text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground sm:inline-flex"
+              aria-label="Search"
+            >
+              <Search className="h-3.5 w-3.5" />
+              <span>Search</span>
+              <kbd className="pointer-events-none ml-1 rounded border border-border/60 bg-background px-1.5 py-0.5 font-mono text-[10px] font-medium text-muted-foreground">
+                ⌘K
+              </kbd>
+            </button>
+
+            {/* Mobile search icon */}
+            <button
+              type="button"
+              onClick={onSearchOpen}
+              className="inline-flex h-8 w-8 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground sm:hidden"
               aria-label="Search"
             >
               <Search className="h-4 w-4" />
@@ -69,7 +103,7 @@ export function AppShell({ children, onSearchOpen }: AppShellProps) {
             <button
               type="button"
               onClick={() => setMobileMenuOpen((prev) => !prev)}
-              className="inline-flex h-8 w-8 items-center justify-center rounded-md text-gray-500 transition-colors hover:bg-gray-100 hover:text-gray-900 md:hidden"
+              className="inline-flex h-8 w-8 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground md:hidden"
               aria-label="Toggle menu"
             >
               {mobileMenuOpen ? (
@@ -92,7 +126,7 @@ export function AppShell({ children, onSearchOpen }: AppShellProps) {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="fixed inset-0 z-40 bg-black/40 md:hidden"
+              className="fixed inset-0 z-40 bg-foreground/20 backdrop-blur-sm md:hidden"
               onClick={() => setMobileMenuOpen(false)}
             />
 
@@ -102,8 +136,8 @@ export function AppShell({ children, onSearchOpen }: AppShellProps) {
               initial={{ x: "100%" }}
               animate={{ x: 0 }}
               exit={{ x: "100%" }}
-              transition={{ type: "spring", damping: 26, stiffness: 260 }}
-              className="fixed right-0 top-14 z-50 flex h-[calc(100vh-3.5rem)] w-64 flex-col gap-1 border-l border-gray-200 bg-white p-4 md:hidden"
+              transition={{ type: "spring", damping: 28, stiffness: 300 }}
+              className="fixed right-0 top-14 z-50 flex h-[calc(100dvh-3.5rem)] w-72 flex-col gap-1 border-l border-border/60 bg-background/95 p-4 backdrop-blur-xl md:hidden"
             >
               {navItems.map((item) => (
                 <NavLink
@@ -113,10 +147,10 @@ export function AppShell({ children, onSearchOpen }: AppShellProps) {
                   onClick={() => setMobileMenuOpen(false)}
                   className={({ isActive }) =>
                     cn(
-                      "rounded-md px-3 py-2 text-sm font-medium transition-colors",
+                      "rounded-lg px-3 py-2.5 text-sm font-medium transition-colors",
                       isActive
-                        ? "bg-gray-100 text-gray-900"
-                        : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
+                        ? "bg-secondary text-foreground"
+                        : "text-muted-foreground hover:bg-secondary/50 hover:text-foreground"
                     )
                   }
                 >
@@ -134,12 +168,12 @@ export function AppShell({ children, onSearchOpen }: AppShellProps) {
       </main>
 
       {/* ── Footer ─────────────────────────────────────────────────── */}
-      <footer className="border-t border-gray-200 bg-white">
+      <footer className="border-t border-border/60">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
-          <p className="text-xs text-gray-400">
+          <p className="text-xs text-muted-foreground/60">
             {config.appName} v{config.version}
           </p>
-          <p className="text-xs text-gray-400">
+          <p className="text-xs text-muted-foreground/60">
             Last updated {config.lastUpdated}
           </p>
         </div>
