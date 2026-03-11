@@ -112,9 +112,9 @@ export default function HomePage() {
           const colors = levelColors[level.id];
 
           return (
-            <motion.div key={level.id} variants={item}>
+            <motion.div key={level.id} variants={item} className="flex">
               <Card
-                className="group relative cursor-pointer overflow-hidden transition-all hover:shadow-md"
+                className="group relative flex flex-1 flex-col cursor-pointer overflow-hidden transition-all hover:shadow-md"
                 onClick={() => navigate(`/level/${level.id}`)}
               >
                 {/* Top accent stripe */}
@@ -123,19 +123,19 @@ export default function HomePage() {
                 <CardHeader className="pb-3">
                   <div className="flex items-center gap-3">
                     <span
-                      className={`flex h-8 w-8 items-center justify-center rounded-lg text-xs font-bold text-white ${colors.dot}`}
+                      className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-xs font-bold text-white ${colors.dot}`}
                     >
                       {level.id.toUpperCase()}
                     </span>
-                    <div>
+                    <div className="min-w-0">
                       <CardTitle className="text-sm">{level.shortName}</CardTitle>
-                      <CardDescription className="text-xs">{level.subtitle}</CardDescription>
+                      <CardDescription className="text-xs line-clamp-1">{level.subtitle}</CardDescription>
                     </div>
                   </div>
                 </CardHeader>
-                <CardContent className="space-y-3">
+                <CardContent className="flex flex-1 flex-col gap-3">
                   <p className="line-clamp-2 text-sm text-muted-foreground">{level.description}</p>
-                  <div className="flex items-center justify-between">
+                  <div className="mt-auto flex items-center justify-between">
                     <Badge variant={colors.softBadge}>
                       {level.phases.length} phases
                     </Badge>
