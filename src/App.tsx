@@ -8,6 +8,7 @@ import MappingPage from '@/pages/MappingPage';
 import TalkTracksPage from '@/pages/TalkTracksPage';
 import PlaybookPage from '@/pages/PlaybookPage';
 import LevelDetailPage from '@/pages/LevelDetailPage';
+import StackPage from '@/pages/StackPage';
 
 export default function App() {
   const [searchOpen, setSearchOpen] = useState(false);
@@ -33,6 +34,7 @@ export default function App() {
           <Route path="/talk-tracks" element={<TalkTracksPage />} />
           <Route path="/playbook" element={<PlaybookPage />} />
           <Route path="/level/:levelId" element={<LevelDetailPage />} />
+          <Route path="/stack" element={<StackPage />} />
         </Routes>
       </AppShell>
       <SearchDialog open={searchOpen} onClose={() => setSearchOpen(false)} />

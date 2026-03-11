@@ -11,6 +11,7 @@ const navItems = [
   { to: "/mapping", label: "Mapping" },
   { to: "/talk-tracks", label: "Talk Tracks" },
   { to: "/playbook", label: "Playbook" },
+  { to: "/stack", label: "The Stack" },
 ] as const;
 
 interface AppShellProps {
